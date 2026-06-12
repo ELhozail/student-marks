@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>الاستعلام عن العلامات</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, Tahoma, sans-serif;
+      background: linear-gradient(135deg, #eef4ff, #ffffff);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #1f2937;
+    }
+    .card {
+      width: 92%;
+      max-width: 460px;
+      background: #fff;
+      border-radius: 22px;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+      padding: 30px 24px;
+      text-align: center;
+    }
+    .logo {
+      width: 78px;
+      height: 78px;
+      margin: 0 auto 14px;
+      border-radius: 50%;
+      background: #2563eb;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 34px;
+      font-weight: bold;
+    }
+    h1 {
+      margin: 8px 0 6px;
+      font-size: 25px;
+      color: #111827;
+    }
+    .subtitle {
+      margin-bottom: 22px;
+      color: #6b7280;
+      font-size: 15px;
+      line-height: 1.7;
+    }
+    input {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 15px;
+      border: 1px solid #d1d5db;
+      border-radius: 14px;
+      font-size: 18px;
+      text-align: center;
+      outline: none;
+      direction: ltr;
+    }
+    input:focus {
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px rgba(37,99,235,0.14);
+    }
+    button {
+      width: 100%;
+      margin-top: 14px;
+      padding: 15px;
+      border: none;
+      border-radius: 14px;
+      background: #2563eb;
+      color: white;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    button:hover { background: #1d4ed8; }
+    .result {
+      margin-top: 20px;
+      padding: 16px;
+      border-radius: 14px;
+      display: none;
+      line-height: 1.8;
+      font-size: 18px;
+    }
+    .success {
+      display: block;
+      background: #ecfdf5;
+      color: #065f46;
+      border: 1px solid #a7f3d0;
+    }
+    .error {
+      display: block;
+      background: #fef2f2;
+      color: #991b1b;
+      border: 1px solid #fecaca;
+    }
+    .footer {
+      margin-top: 18px;
+      font-size: 13px;
+      color: #9ca3af;
+    }
+    .mark {
+      font-size: 34px;
+      font-weight: bold;
+      color: #047857;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="logo">✓</div>
+    <h1>الاستعلام عن العلامات</h1>
+    <div class="subtitle">أدخل رقم الهوية ثم اضغط على زر عرض العلامة</div>
+
+    <input id="idInput" type="text" inputmode="numeric" placeholder="رقم الهوية" onkeydown="if(event.key==='Enter') searchMark()" />
+    <button onclick="searchMark()">عرض العلامة</button>
+
+    <div id="result" class="result"></div>
+    <div class="footer">مدرسة النجاح الثانوية</div>
+  </div>
+
+  <script>
+    // ضع هنا بيانات الطلاب بعد تحويل ملف Excel
+    // مهم: لا تضع أسماء إذا كنت تريد الخصوصية أكثر، فقط ID والعلامة.
+    const students = [
+      { id: "123456789", name: "طالب تجريبي", mark: "95" },
+      { id: "987654321", name: "طالب تجريبي 2", mark: "88" }
+    ];
+
+    function normalizeId(value) {
+      return String(value).replace(/\D/g, "").trim();
+    }
+
+    function searchMark() {
+      const input = document.getElementById("idInput");
+      const result = document.getElementById("result");
+      const id = normalizeId(input.value);
+
+      result.className = "result";
+      result.innerHTML = "";
+
+      if (!id) {
+        result.classList.add("error");
+        result.innerHTML = "يرجى إدخال رقم الهوية.";
+        return;
+      }
+
+      const student = students.find(s => normalizeId(s.id) === id);
+
+      if (student) {
+        result.classList.add("success");
+        result.innerHTML = `
+          <div>تم العثور على العلامة</div>
+          <div class="mark">${student.mark}</div>
+        `;
+      } else {
+        result.classList.add("error");
+        result.innerHTML = "رقم الهوية غير موجود. تأكد من الرقم وحاول مرة أخرى.";
+      }
+    }
+  </script>
+</body>
+</html>
