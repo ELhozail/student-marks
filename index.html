@@ -1,12 +1,76 @@
-<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="UTF-8"><title>نتائج الطلاب</title>
-<style>body{font-family:Arial;text-align:center;padding:40px;background:#f4f6f9}input,button{padding:12px;font-size:18px}#result{margin-top:20px;font-size:22px}</style></head>
-<body><h1>استعلام عن العلامة</h1><input id="id" placeholder="أدخل رقم الهوية"><button onclick="searchMark()">بحث</button><div id="result"></div>
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>بوابة الاستعلام عن العلامات</title>
+  <style>
+    :root{
+      --navy:#0b1f3a; --blue:#113c73; --gold:#d7aa3c; --soft:#f7f2e8;
+      --green:#0f8b5f; --red:#b3261e; --card:rgba(255,255,255,.92);
+    }
+    *{box-sizing:border-box}
+    body{margin:0;min-height:100vh;font-family:Tahoma,Arial,sans-serif;background:
+      radial-gradient(circle at 20% 10%, rgba(215,170,60,.28), transparent 28%),
+      radial-gradient(circle at 85% 20%, rgba(255,255,255,.12), transparent 22%),
+      linear-gradient(135deg,var(--navy),var(--blue) 55%,#061426);color:#162033;display:flex;align-items:center;justify-content:center;padding:26px;overflow-x:hidden}
+    .wrap{width:min(960px,100%);position:relative}.glow{position:absolute;inset:-18px;border:1px solid rgba(215,170,60,.38);border-radius:34px;pointer-events:none;filter:drop-shadow(0 0 20px rgba(215,170,60,.18))}
+    .card{background:var(--card);backdrop-filter:blur(12px);border-radius:28px;overflow:hidden;box-shadow:0 28px 70px rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.45)}
+    header{padding:34px 30px 24px;text-align:center;color:white;background:linear-gradient(135deg,rgba(11,31,58,.96),rgba(17,60,115,.94));position:relative}
+    header:before{content:"";position:absolute;inset:14px;border:1px solid rgba(215,170,60,.55);border-radius:20px;pointer-events:none}
+    .badge{width:78px;height:78px;margin:0 auto 12px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,#fff8dd,#d7aa3c);font-size:38px;color:#10294c;box-shadow:0 8px 25px rgba(0,0,0,.25)}
+    h1{margin:0;font-size:clamp(26px,4vw,42px);letter-spacing:.2px}.sub{margin:10px 0 0;color:#f2deb0;font-size:18px}.school{margin-top:8px;opacity:.94;font-size:15px}
+    main{padding:34px 28px 26px}.notice{background:#fff8e7;border-right:6px solid var(--gold);padding:14px 16px;border-radius:16px;margin-bottom:22px;font-size:16px;color:#4c3712}
+    .searchBox{display:grid;grid-template-columns:1fr auto;gap:12px;margin:18px 0 20px}.input{height:58px;border:2px solid #d8dfec;border-radius:18px;padding:0 18px;font-size:22px;direction:ltr;text-align:center;outline:none;background:white;transition:.2s}.input:focus{border-color:var(--gold);box-shadow:0 0 0 5px rgba(215,170,60,.18)}
+    button{height:58px;border:0;border-radius:18px;padding:0 30px;font-size:19px;font-weight:700;cursor:pointer;color:#102033;background:linear-gradient(135deg,#fff3bf,var(--gold));box-shadow:0 10px 22px rgba(215,170,60,.27);transition:.2s}button:hover{transform:translateY(-1px)}
+    .result{min-height:120px;border-radius:22px;border:1px dashed #cbd5e4;background:#f9fbff;display:flex;align-items:center;justify-content:center;text-align:center;padding:22px;margin-top:12px}
+    .empty{color:#6b7280;font-size:17px}.error{color:var(--red);font-weight:700;font-size:18px}.success{width:100%;display:grid;gap:14px}.studentName{font-size:25px;font-weight:800;color:var(--navy)}.mark{display:inline-flex;align-items:center;justify-content:center;margin:auto;width:135px;height:135px;border-radius:50%;background:linear-gradient(135deg,#eef9f4,#fff);border:8px solid #dcefe8;box-shadow:inset 0 0 0 2px var(--green),0 12px 25px rgba(15,139,95,.16);font-size:42px;font-weight:900;color:var(--green)}.label{color:#64748b;font-size:16px}
+    footer{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:22px 28px;background:#f4f0e6;border-top:1px solid #e6d8b8}.seal{border:3px double var(--gold);color:#5f4511;border-radius:999px;padding:10px 18px;font-weight:800;background:#fffaf0;box-shadow:0 6px 16px rgba(215,170,60,.15)}.dev{color:#4b5563;font-size:15px}
+    @media(max-width:640px){body{padding:14px}.searchBox{grid-template-columns:1fr}button{width:100%}main{padding:24px 16px}.seal{width:100%;text-align:center}footer{justify-content:center;text-align:center}}
+  </style>
+</head>
+<body>
+  <div class="wrap"><div class="glow"></div><div class="card">
+    <header>
+      <div class="badge">🎓</div>
+      <h1>بوابة الاستعلام عن العلامات</h1>
+      <div class="sub">أدخل رقم الهوية لعرض العلامة بشكل فوري وآمن</div>
+      <div class="school">مدرسة رهط الثانوية على اسم الشيخ سلمان الهزيل</div>
+    </header>
+    <main>
+      <div class="notice">🔐 الرجاء إدخال رقم الهوية كما يظهر في سجلات المدرسة. لا تظهر بيانات أي طالب آخر.</div>
+      <div class="searchBox">
+        <input id="idInput" class="input" inputmode="numeric" autocomplete="off" placeholder="رقم الهوية" />
+        <button onclick="searchMark()">عرض العلامة</button>
+      </div>
+      <div id="result" class="result"><div class="empty">اكتب رقم الهوية ثم اضغط على زر عرض العلامة</div></div>
+    </main>
+    <footer>
+      <div class="seal">✦ ختم وإعداد: عبد الحليم الهزيل ✦</div>
+      <div class="dev">© جميع الحقوق محفوظة</div>
+    </footer>
+  </div></div>
 <script>
 let students=[];
-fetch('students.json').then(r=>r.json()).then(d=>students=d);
+fetch('students.json?v=' + Date.now()).then(r=>r.json()).then(data=>{students=data}).catch(()=>{
+  document.getElementById('result').innerHTML='<div class="error">تعذر تحميل ملف students.json. تأكد من رفعه بجانب index.html</div>';
+});
+function clean(v){return String(v||'').replace(/\D/g,'');}
 function searchMark(){
-const id=document.getElementById('id').value.trim();
-const s=students.find(x=>x.id===id);
-document.getElementById('result').innerHTML=s?`<b>${s.name}</b><br>العلامة: ${s.mark}`:'لم يتم العثور على الطالب';
+  const input=clean(document.getElementById('idInput').value);
+  const result=document.getElementById('result');
+  if(!input){result.innerHTML='<div class="error">الرجاء إدخال رقم الهوية.</div>';return;}
+  const normalized=input.replace(/^0+/, '');
+  const s=students.find(x=>{
+    const sid=clean(x.id); const nsid=sid.replace(/^0+/, '');
+    return sid===input || nsid===normalized || sid.endsWith(input) || input.endsWith(sid);
+  });
+  if(!s){result.innerHTML='<div class="error">رقم الهوية غير موجود. تأكد من الرقم وحاول مرة أخرى.</div>';return;}
+  const name=s.name || 'الطالب'; const mark=s.mark ?? s.grade ?? '';
+  result.innerHTML=`<div class="success"><div class="label">اسم الطالب/ة</div><div class="studentName">${escapeHtml(name)}</div><div class="label">العلامة</div><div class="mark">${escapeHtml(mark)}</div></div>`;
 }
-</script></body></html>
+function escapeHtml(t){return String(t).replace(/[&<>'"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[m]));}
+document.getElementById('idInput').addEventListener('keydown',e=>{if(e.key==='Enter')searchMark();});
+</script>
+</body>
+</html>
