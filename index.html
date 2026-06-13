@@ -2,296 +2,67 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>بوابة الاستعلام عن العلامات</title>
   <style>
-    :root{
-      --navy:#0b1f3a;
-      --blue:#123e73;
-      --gold:#d7a843;
-      --gold2:#f4d27b;
-      --white:#ffffff;
-      --soft:#f4f7fb;
-      --danger:#b91c1c;
-      --ok:#166534;
-      --text:#102033;
-    }
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      min-height:100vh;
-      font-family: "Tahoma", "Arial", sans-serif;
-      background:
-        radial-gradient(circle at 15% 15%, rgba(244,210,123,.22), transparent 30%),
-        radial-gradient(circle at 85% 20%, rgba(255,255,255,.14), transparent 28%),
-        linear-gradient(135deg, #07182e 0%, #123e73 48%, #07182e 100%);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:24px;
-      color:var(--text);
-    }
-    .page{
-      width:min(920px,100%);
-      background:rgba(255,255,255,.96);
-      border:1px solid rgba(244,210,123,.45);
-      border-radius:28px;
-      overflow:hidden;
-      box-shadow:0 24px 70px rgba(0,0,0,.30);
-      position:relative;
-    }
-    .top{
-      padding:34px 28px 28px;
-      color:white;
-      text-align:center;
-      background:
-        linear-gradient(120deg, rgba(11,31,58,.97), rgba(18,62,115,.96)),
-        repeating-linear-gradient(45deg, transparent 0 12px, rgba(255,255,255,.04) 12px 14px);
-      position:relative;
-    }
-    .top:after{
-      content:"";
-      position:absolute;
-      inset:auto 0 0 0;
-      height:5px;
-      background:linear-gradient(90deg, transparent, var(--gold2), var(--gold), var(--gold2), transparent);
-    }
-    .badge{
-      margin:0 auto 14px;
-      width:86px;height:86px;border-radius:50%;
-      display:flex;align-items:center;justify-content:center;
-      border:3px solid var(--gold2);
-      background:linear-gradient(145deg, rgba(244,210,123,.25), rgba(255,255,255,.05));
-      box-shadow:0 0 30px rgba(244,210,123,.22);
-      font-size:38px;
-    }
-    h1{margin:0;font-size:32px;letter-spacing:.2px}
-    .subtitle{margin:12px auto 0;max-width:720px;line-height:1.8;color:#dce8f7;font-size:16px}
-    .content{padding:30px}
-    .search-box{
-      background:linear-gradient(180deg, #fff, #f7fafc);
-      border:1px solid #d9e4ef;
-      border-radius:22px;
-      padding:24px;
-      box-shadow:0 12px 28px rgba(15,35,65,.08);
-    }
-    label{font-weight:700;color:var(--navy);display:block;margin-bottom:10px;font-size:18px}
-    .row{display:flex;gap:12px;align-items:center}
-    input{
-      flex:1;
-      height:56px;
-      border:2px solid #d7e2ee;
-      border-radius:16px;
-      padding:0 18px;
-      font-size:22px;
-      outline:none;
-      text-align:center;
-      letter-spacing:2px;
-      direction:ltr;
-      background:white;
-      transition:.2s;
-    }
-    input:focus{border-color:var(--gold);box-shadow:0 0 0 4px rgba(215,168,67,.18)}
-    button{
-      height:56px;
-      border:0;
-      border-radius:16px;
-      padding:0 26px;
-      font-size:18px;
-      font-weight:800;
-      color:#102033;
-      cursor:pointer;
-      background:linear-gradient(135deg, var(--gold2), var(--gold));
-      box-shadow:0 10px 18px rgba(215,168,67,.25);
-      transition:.2s;
-    }
-    button:hover{transform:translateY(-1px)}
-    .hint{margin-top:12px;color:#5c6b7d;font-size:14px;line-height:1.7}
-    .result{
-      margin-top:22px;
-      min-height:42px;
-    }
-    .msg{
-      padding:16px 18px;border-radius:16px;
-      background:#fff7ed;border:1px solid #fed7aa;color:#9a3412;
-      font-weight:700;line-height:1.7;
-    }
-    .student-card{
-      border-radius:24px;
-      border:1px solid rgba(215,168,67,.45);
-      background:
-        linear-gradient(180deg, rgba(255,255,255,.98), rgba(248,250,252,.98));
-      box-shadow:0 16px 38px rgba(15,35,65,.12);
-      overflow:hidden;
-    }
-    .student-head{
-      display:flex;justify-content:space-between;gap:12px;align-items:center;
-      padding:20px 22px;
-      background:linear-gradient(120deg, #0b1f3a, #123e73);
-      color:white;
-    }
-    .student-name{font-size:22px;font-weight:900}
-    .student-id{font-size:14px;color:#dbeafe;direction:ltr}
-    .marks{padding:18px;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
-    .mark-card{
-      border-radius:18px;
-      background:white;
-      border:1px solid #e6eef7;
-      padding:18px;
-      position:relative;
-      overflow:hidden;
-    }
-    .mark-card:before{
-      content:"";
-      position:absolute;right:0;top:0;bottom:0;width:6px;
-      background:linear-gradient(var(--gold2), var(--gold));
-    }
-    .subject{font-weight:900;color:var(--navy);font-size:17px;margin-bottom:12px}
-    .score{font-size:38px;font-weight:900;color:#0f172a;line-height:1}
-    .rating{
-      display:inline-block;margin-top:12px;padding:7px 14px;border-radius:999px;
-      font-weight:900;font-size:15px;
-    }
-    .excellent{background:#dcfce7;color:#166534}
-    .verygood{background:#dbeafe;color:#1d4ed8}
-    .good{background:#fef3c7;color:#92400e}
-    .pass{background:#ffedd5;color:#c2410c}
-    .weak{background:#fee2e2;color:#b91c1c}
-    .missing{background:#f1f5f9;color:#64748b}
-    .stamp{
-      margin-top:26px;
-      text-align:center;
-      color:#243b58;
-      font-weight:800;
-      line-height:1.8;
-    }
-    .seal{
-      display:inline-block;
-      margin-top:8px;
-      padding:10px 22px;
-      border:2px solid var(--gold);
-      border-radius:999px;
-      color:#7a4f08;
-      background:linear-gradient(180deg, #fffaf0, #fff);
-      box-shadow:inset 0 0 0 2px rgba(244,210,123,.20);
-    }
-    footer{
-      padding:18px;
-      text-align:center;
-      background:#f8fafc;
-      color:#627083;
-      font-size:13px;
-      border-top:1px solid #e2e8f0;
-    }
-    @media(max-width:650px){
-      .row{flex-direction:column}
-      input,button{width:100%}
-      h1{font-size:25px}
-      .content{padding:18px}
-      .top{padding:26px 18px}
-    }
+    :root{--navy:#0f2a44;--gold:#d4af37;--bg:#eef4fb;--card:#ffffff;--green:#159957;--red:#b91c1c;}
+    *{box-sizing:border-box} body{margin:0;font-family:"Tahoma","Arial",sans-serif;background:radial-gradient(circle at top,#ffffff 0,#eef4fb 35%,#dfeaf7 100%);min-height:100vh;color:#12263a;}
+    .wrap{width:min(920px,94%);margin:0 auto;padding:32px 0;}
+    .hero{background:linear-gradient(135deg,var(--navy),#173f67);border-radius:28px;padding:34px 26px;color:white;text-align:center;box-shadow:0 22px 55px rgba(15,42,68,.28);position:relative;overflow:hidden}
+    .hero:before{content:"";position:absolute;inset:-60px;background:radial-gradient(circle at 20% 20%,rgba(212,175,55,.34),transparent 28%),radial-gradient(circle at 85% 15%,rgba(255,255,255,.18),transparent 22%);}
+    .hero>*{position:relative}.badge{display:inline-block;border:1px solid rgba(212,175,55,.8);color:#ffe89c;padding:8px 18px;border-radius:999px;font-weight:bold;margin-bottom:12px;background:rgba(255,255,255,.08)}
+    h1{margin:8px 0 10px;font-size:clamp(28px,5vw,44px)} .subtitle{margin:0;font-size:18px;opacity:.92;line-height:1.8}
+    .panel{margin:-34px auto 0;max-width:720px;background:var(--card);border-radius:26px;padding:26px;box-shadow:0 18px 45px rgba(15,42,68,.18);position:relative;border:1px solid rgba(212,175,55,.32)}
+    label{font-weight:bold;font-size:17px;display:block;margin-bottom:10px}.inputRow{display:flex;gap:12px;align-items:center}.inputRow input{flex:1;padding:17px 18px;border:2px solid #d9e5f0;border-radius:18px;font-size:20px;text-align:center;letter-spacing:2px;direction:ltr;outline:none}.inputRow input:focus{border-color:var(--gold);box-shadow:0 0 0 4px rgba(212,175,55,.16)}
+    button{border:0;border-radius:18px;background:linear-gradient(135deg,var(--gold),#f5d76e);color:#17233a;font-weight:900;font-size:18px;padding:17px 28px;cursor:pointer;box-shadow:0 9px 20px rgba(212,175,55,.28)}button:hover{transform:translateY(-1px)}
+    .hint{font-size:14px;color:#667085;margin:12px 0 0}.result{margin-top:22px}.studentCard{border-radius:22px;border:1px solid #e5edf5;overflow:hidden;background:#fbfdff}.studentHead{padding:18px 20px;background:linear-gradient(135deg,#f8fafc,#edf4fb);display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}.name{font-size:22px;font-weight:900;color:var(--navy)}.id{direction:ltr;color:#475467;font-weight:bold}
+    table{width:100%;border-collapse:collapse}th,td{padding:16px;border-bottom:1px solid #e9eef5;text-align:center}th{background:#fff9e6;color:#614b00}.rating{font-weight:900;border-radius:999px;padding:7px 14px;display:inline-block}.excellent{background:#e8fff1;color:#087443}.verygood{background:#e7f0ff;color:#164da8}.good{background:#fff7d6;color:#8a6100}.pass{background:#fff0e5;color:#a94b00}.weak{background:#ffe8e8;color:#b91c1c}.none{background:#f2f4f7;color:#667085}
+    .msg{padding:17px 18px;border-radius:18px;font-weight:bold;text-align:center}.error{background:#fff1f2;color:#b42318;border:1px solid #fecdd3}.info{background:#eff6ff;color:#175cd3;border:1px solid #bfdbfe}
+    .stamp{margin:28px auto 0;text-align:center;color:var(--navy);font-weight:900}.seal{display:inline-block;border:2px solid var(--gold);border-radius:999px;padding:12px 24px;background:rgba(255,255,255,.7);box-shadow:0 8px 22px rgba(15,42,68,.1)}
+    @media(max-width:640px){.inputRow{flex-direction:column}.inputRow input,button{width:100%}th,td{padding:12px 8px;font-size:14px}.panel{padding:18px}}
   </style>
 </head>
 <body>
-  <main class="page">
-    <section class="top">
-      <div class="badge">🎓</div>
+  <main class="wrap">
+    <section class="hero">
+      <div class="badge">مدرسة رهط الثانوية على اسم الشيخ سلمان الهزيل</div>
       <h1>بوابة الاستعلام عن العلامات</h1>
-      <p class="subtitle">أدخل رقم الهوية كاملًا للاطلاع على العلامات والتقدير لكل موضوع.</p>
+      <p class="subtitle">أدخل رقم الهوية كاملًا من 9 أرقام لعرض علاماتك بصورة خاصة ومنظمة</p>
     </section>
-
-    <section class="content">
-      <div class="search-box">
-        <label for="idInput">رقم الهوية</label>
-        <div class="row">
-          <input id="idInput" inputmode="numeric" autocomplete="off" placeholder="اكتب رقم الهوية كاملًا" />
-          <button onclick="searchStudent()">عرض العلامة</button>
-        </div>
-        <div class="hint">مهم: يجب كتابة رقم الهوية كاملًا كما هو، ولا تقبل الصفحة البحث برقمين أو جزء من الرقم.</div>
-        <div id="result" class="result"></div>
+    <section class="panel">
+      <label for="idInput">رقم الهوية</label>
+      <div class="inputRow">
+        <input id="idInput" type="text" inputmode="numeric" maxlength="9" placeholder="مثال: 123456789" autocomplete="off" />
+        <button onclick="searchStudent()">عرض النتيجة</button>
       </div>
-
-      <div class="stamp">
-        <div>إعداد وتطوير</div>
-        <div class="seal">الأستاذ عبد الحليم الهزيل</div>
-      </div>
+      <p class="hint">يجب كتابة رقم الهوية كاملًا، لا تقبل الصفحة رقمين أو أكثر فقط.</p>
+      <div id="result" class="result"></div>
     </section>
-    <footer>جميع الحقوق محفوظة © عبد الحليم الهزيل</footer>
+    <div class="stamp"><span class="seal">إعداد وتطوير الأستاذ عبد الحليم الهزيل</span></div>
   </main>
-
 <script>
-let students = [];
-
-function normalizeDigits(value){
-  const map = {'٠':'0','١':'1','٢':'2','٣':'3','٤':'4','٥':'5','٦':'6','٧':'7','٨':'8','٩':'9',
-               '۰':'0','۱':'1','۲':'2','۳':'3','۴':'4','۵':'5','۶':'6','۷':'7','۸':'8','۹':'9'};
-  return String(value || '').replace(/[٠-٩۰-۹]/g, d => map[d]).replace(/\D/g,'');
+let students=[];
+fetch('students.json?version=' + Date.now()).then(r=>r.json()).then(data=>{students=data;}).catch(()=>{document.getElementById('result').innerHTML='<div class="msg error">لم يتم تحميل ملف العلامات students.json. تأكد من رفعه بجانب index.html.</div>';});
+const input=document.getElementById('idInput');
+input.addEventListener('input',()=>{input.value=input.value.replace(/\D/g,'').slice(0,9);});
+input.addEventListener('keydown',(e)=>{if(e.key==='Enter')searchStudent();});
+function rating(mark){
+  if(mark===null || mark===undefined || mark==='') return {text:'لا توجد علامة بعد',cls:'none'};
+  const m=Number(mark);
+  if(m>=90) return {text:'ممتاز',cls:'excellent'};
+  if(m>=80) return {text:'جيد جدًا',cls:'verygood'};
+  if(m>=70) return {text:'جيد',cls:'good'};
+  if(m>=60) return {text:'مقبول',cls:'pass'};
+  return {text:'بحاجة إلى تحسين',cls:'weak'};
 }
-
-function rating(score){
-  const n = Number(score);
-  if (Number.isNaN(n)) return {text:'لا توجد علامة', cls:'missing'};
-  if (n > 90) return {text:'ممتاز', cls:'excellent'};
-  if (n >= 80) return {text:'جيد جدًا', cls:'verygood'};
-  if (n >= 70) return {text:'جيد', cls:'good'};
-  if (n >= 60) return {text:'مقبول', cls:'pass'};
-  return {text:'يحتاج إلى متابعة', cls:'weak'};
-}
-
-function showMessage(text){
-  document.getElementById('result').innerHTML = `<div class="msg">${text}</div>`;
-}
-
 function searchStudent(){
-  const input = normalizeDigits(document.getElementById('idInput').value);
-  if(!input){
-    showMessage('الرجاء كتابة رقم الهوية كاملًا.');
-    return;
-  }
-
-  const student = students.find(s => normalizeDigits(s.id) === input);
-  if(!student){
-    showMessage('رقم الهوية غير موجود. تأكد من كتابة الرقم كاملًا وحاول مرة أخرى.');
-    return;
-  }
-
-  let cards = '';
-  Object.entries(student.marks || {}).forEach(([subject, mark]) => {
-    const r = rating(mark);
-    const scoreText = (mark === null || mark === undefined || mark === '') ? '—' : mark;
-    cards += `
-      <div class="mark-card">
-        <div class="subject">${subject}</div>
-        <div class="score">${scoreText}</div>
-        <span class="rating ${r.cls}">${r.text}</span>
-      </div>
-    `;
-  });
-
-  document.getElementById('result').innerHTML = `
-    <div class="student-card">
-      <div class="student-head">
-        <div class="student-name">${student.name}</div>
-        <div class="student-id">ID: ${student.id}</div>
-      </div>
-      <div class="marks">${cards}</div>
-    </div>
-  `;
+ const id=input.value.trim(); const result=document.getElementById('result');
+ if(!/^\d{9}$/.test(id)){result.innerHTML='<div class="msg info">الرجاء إدخال رقم الهوية كاملًا من 9 أرقام.</div>';return;}
+ const st=students.find(s=>String(s.id).trim()===id);
+ if(!st){result.innerHTML='<div class="msg error">رقم الهوية غير موجود. تأكد من الرقم وحاول مرة أخرى.</div>';return;}
+ const rows=st.marks.map(m=>{const r=rating(m.mark); const mark=(m.mark===null||m.mark===undefined||m.mark==='')?'—':m.mark; return `<tr><td>${m.subject}</td><td><strong>${mark}</strong></td><td><span class="rating ${r.cls}">${r.text}</span></td></tr>`}).join('');
+ result.innerHTML=`<div class="studentCard"><div class="studentHead"><div><div class="name">${st.name}</div><div>نتيجتك حسب رقم الهوية</div></div><div class="id">${st.id}</div></div><table><thead><tr><th>المادة</th><th>العلامة</th><th>التقدير</th></tr></thead><tbody>${rows}</tbody></table></div>`;
 }
-
-document.getElementById('idInput').addEventListener('keydown', e => {
-  if(e.key === 'Enter') searchStudent();
-});
-
-fetch('students.json?v=' + Date.now())
-  .then(r => {
-    if(!r.ok) throw new Error('students.json not found');
-    return r.json();
-  })
-  .then(data => { students = data.students || []; })
-  .catch(() => {
-    showMessage('لم يتم العثور على ملف students.json. تأكد من رفعه مع index.html في نفس المكان.');
-  });
 </script>
 </body>
 </html>
